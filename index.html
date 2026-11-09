@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#fafafa" />
+    <title>NCA-GENL | Exam Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="light">
+    <div class="bg-decor" aria-hidden="true">
+      <span class="blob blob-a"></span><span class="blob blob-b"></span><span class="blob blob-c"></span>
+    </div>
+    <div class="wrap">
+      <header class="top">
+        <div class="brand">
+          <div class="logo" aria-label="NVIDIA"><img src="https://cdn.simpleicons.org/nvidia/76B900" alt="" onerror="this.style.display='none'" /><span>NVIDIA</span></div>
+          <div>
+            <div class="eyebrow">CERTIFICATION EXAM SIMULATOR</div>
+            <h1>NCA-GENL • Generative AI</h1>
+          </div>
+        </div>
+        <div class="topright">
+          <button class="btn" id="themeBtn" title="Toggle light/dark theme">
+            ☾ Dark</button
+          ><button class="btn" id="homeBtn">⌂ Setup</button>
+        </div>
+      </header>
+      <section class="hero" id="hero">
+        <h2>Simulate the exam.<br /><span>Master the concepts.</span></h2>
+        <p>
+          Timed exam conditions, shuffled question and answer order, delayed
+          explanations, and a topic-by-topic performance breakdown.
+        </p>
+        <ul class="hero-stats">
+          <li><b id="heroQ">–</b> questions</li>
+          <li><b id="heroD">–</b> study domains</li>
+          <li>Strict exam &amp; practice modes</li>
+          <li>Runs 100% in your browser</li>
+        </ul>
+      </section>
+      <section class="panel setup" id="setup">
+        <div class="section-title">Configure your exam session</div>
+        <div class="setup-grid">
+          <div class="field">
+            <label for="duration">Time limit</label
+            ><select id="duration">
+              <option value="30">30 minutes</option>
+              <option value="60" selected>60 minutes</option>
+              <option value="90">90 minutes</option>
+              <option value="120">120 minutes</option>
+              <option value="0">No time limit</option></select
+            ><small>Timer submits the exam automatically at zero.</small>
+          </div>
+          <div class="field">
+            <label for="count">Question count</label
+            ><select id="count">
+              <option value="25">25 questions</option>
+              <option value="50">50 questions</option>
+              <option value="75">75 questions</option>
+              <option value="all" selected>
+                All available questions
+              </option></select
+            ><small>Questions are sampled randomly from the source set.</small>
+          </div>
+          <div class="field">
+            <label for="domainFilter">Question category / domain</label
+            ><select id="domainFilter">
+              <option value="all">All domains · mixed practice</option></select
+            ><small
+              >Choose one domain to focus your practice or mock exam. Each
+              question is tagged with its best-fit study domain.</small
+            >
+          </div>
+          <div class="field">
+            <span class="label">Exam behavior</span>
+            <div class="mode-value">🔒 Strict exam mode</div>
+            <small
+              >All hints and explanations stay hidden until you submit the
+              exam.</small
+            >
+          </div>
+        </div>
+        <div class="rand">
+          <div class="section-title">Randomization</div>
+          <div class="toggleline">
+            <div>
+              <b>Shuffle questions</b
+              ><small>Change the order every time you start.</small>
+            </div>
+            <input type="checkbox" id="shuffleQ" checked />
+          </div>
+          <div class="toggleline">
+            <div>
+              <b>Shuffle answer choices</b
+              ><small
+                >Correct answers remain correctly mapped after shuffling.</small
+              >
+            </div>
+            <input type="checkbox" id="shuffleA" checked />
+          </div>
+        </div>
+        <div class="setup-footer">
+          <div>
+            <span class="note" id="bankInfo">Loading question bank…</span
+            ><small id="topicInfo" class="topic-info"></small>
+          </div>
+          <div class="actions">
+            <button class="btn" id="startPractice">
+              Practice mode · instant feedback</button
+            ><button class="btn primary" id="startBtn">
+              Start exam mockup →
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="exam" id="exam">
+        <aside class="panel sidebar">
+          <div class="sidehead">TIME REMAINING</div>
+          <div class="timer" id="timerBox">
+            <span>◷</span><strong id="clock">60:00</strong>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong id="answered">0</strong><span>Answered</span>
+            </div>
+            <div class="stat">
+              <strong id="remaining">0</strong><span>Remaining</span>
+            </div>
+          </div>
+          <div class="completion">
+            <span>Completion</span><b id="pct">0%</b>
+          </div>
+          <div class="progress"><i id="prog"></i></div>
+          <div class="sidehead">QUESTION MAP</div>
+          <div class="navigator" id="navigator"></div>
+          <ul class="legend">
+            <li><i class="sw sw-current"></i>Current</li>
+            <li><i class="sw sw-answered"></i>Answered</li>
+            <li><i class="sw"></i>Unanswered</li>
+            <li><i class="sw sw-review"></i>Marked</li>
+            <li><i class="sw sw-correct"></i>Correct</li>
+            <li><i class="sw sw-wrong"></i>Incorrect</li>
+          </ul>
+          <div class="sidefoot">
+            In exam mode, correctness is revealed only after you submit.
+          </div>
+          <div class="key-help">
+            <kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>1</kbd>–<kbd>5</kbd> choose
+            · <kbd>F</kbd> mark · <kbd>Enter</kbd> next · <kbd>Ctrl</kbd> +
+            <kbd>Enter</kbd> submit
+          </div>
+          <div class="side-actions">
+            <button class="btn" id="pauseBtn">Ⅱ Pause exam</button
+            ><button class="btn danger" id="cancelBtn">✕ Cancel session</button>
+          </div>
+        </aside>
+        <main class="panel question-card" id="questionCard">
+          <div class="qmeta">
+            <span id="qnum">QUESTION 1 OF 118</span>
+            <span class="chip" id="topicChip">TOPIC</span>
+          </div>
+          <h2 class="qtitle" id="stem"></h2>
+          <div class="hintline" id="multiHint"></div>
+          <div class="options" id="options"></div>
+          <div id="answerFeedback" class="reviewitem hidden"></div>
+          <div class="qcontrols">
+            <div class="question-nav-actions">
+              <button class="btn" id="prev">← Previous</button
+              ><button class="btn" id="next">Next →</button
+              ><button
+                class="btn review-action"
+                id="flagBtn"
+                title="Mark for review"
+                aria-label="Mark for review"
+              >
+                <span class="review-icon" aria-hidden="true">☆</span
+                ><span class="review-label">Mark for review</span>
+              </button>
+            </div>
+            <div>
+              <button class="btn primary" id="submitMain">Submit exam</button>
+            </div>
+          </div>
+        </main>
+      </section>
+      <section class="panel results" id="results">
+        <div class="eyebrow">EXAM REPORT</div>
+        <h2>Your performance overview</h2>
+        <div class="result-head">
+          <div class="score-ring" id="scoreRing" role="img" aria-label="Overall score">
+            <div class="score" id="score">0%</div>
+          </div>
+          <p id="summary"></p>
+        </div>
+        <div class="resultgrid">
+          <div class="stat">
+            <strong id="right">0</strong><span>Correct</span>
+          </div>
+          <div class="stat">
+            <strong id="wrong">0</strong><span>Incorrect</span>
+          </div>
+          <div class="stat">
+            <strong id="skip">0</strong><span>Unanswered</span>
+          </div>
+          <div class="stat">
+            <strong id="spent">00:00</strong><span>Time used</span>
+          </div>
+        </div>
+        <h3>Domain performance</h3>
+        <p class="note">
+          Each question is assigned to the closest matching study domain from
+          your requested list. These are learning categories, not a claim about
+          NVIDIA’s official exam blueprint.
+        </p>
+        <div class="topic-list" id="topicAnalytics"></div>
+        <h3>Your weakest topics</h3>
+        <p class="note">
+          Prioritized by lowest accuracy in this attempt. Use these areas to
+          guide your next revision session.
+        </p>
+        <div class="topic-list" id="weakTopics"></div>
+        <h3>Performance history</h3>
+        <p class="note">
+          Your latest attempts are stored only in this browser on this device.
+        </p>
+        <div class="review" id="historyList"></div>
+        <h3>Questions to review</h3>
+        <div
+          class="review-filters"
+          id="reviewFilters"
+          role="group"
+          aria-label="Filter reviewed questions"
+        >
+          <button
+            class="filter-btn active"
+            data-filter="all"
+            title="Show every question"
+          >
+            All <span id="filterAllCount">0</span></button
+          ><button
+            class="filter-btn"
+            data-filter="correct"
+            title="Show questions answered correctly"
+          >
+            Correct <span id="filterCorrectCount">0</span></button
+          ><button
+            class="filter-btn"
+            data-filter="wrong"
+            title="Show questions answered incorrectly"
+          >
+            Wrong answer <span id="filterWrongCount">0</span></button
+          ><button
+            class="filter-btn"
+            data-filter="unanswered"
+            title="Show questions left unanswered"
+          >
+            Not answered <span id="filterUnansweredCount">0</span>
+          </button>
+        </div>
+        <div class="review" id="review"></div>
+        <div class="qcontrols">
+          <div>
+            <button class="btn" id="reviewMode">Review answers</button
+            ><button class="btn" id="backSetup">Back to setup</button
+            ><button class="btn" id="retryWrong">Retry incorrect</button>
+          </div>
+          <div>
+            <button class="btn primary" id="retake">
+              Retake with new random order ↻
+            </button>
+          </div>
+        </div>
+      </section>
+      <div class="paused-overlay" id="pauseOverlay">
+        <div class="panel paused-card">
+          <div class="eyebrow">SESSION PAUSED</div>
+          <h2>Take your time.</h2>
+          <p>
+            Your answers and marked questions are saved in this browser session.
+            The countdown is stopped.
+          </p>
+          <button class="btn primary" id="resumeBtn">Resume exam</button
+          ><button class="btn danger" id="cancelPaused">
+            Cancel session
+          </button>
+        </div>
+      </div>
+      <div class="foot">
+        NCA-GENL Practice Simulator · Built from your supplied question set ·
+        Runs locally in your browser
+      </div>
+    </div>
+    <div class="scroll-float" aria-label="Page navigation">
+      <button id="scrollUp" title="Scroll to top" aria-label="Scroll to top">
+        ↑</button
+      ><button
+        id="scrollDown"
+        title="Scroll to bottom"
+        aria-label="Scroll to bottom"
+      >
+        ↓
+      </button>
+    </div>
+    <script src="js/question-bank.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
