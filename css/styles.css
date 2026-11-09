@@ -328,7 +328,7 @@ input[type=checkbox]:hover { box-shadow: 0 0 0 4px rgb(118 185 0 / .18); }
 .dot.active { box-shadow: 0 0 0 3px var(--surface-solid), 0 0 0 5px var(--accent); border-color: var(--accent); }
 .dot.flagged::after { content: ""; position: absolute; top: -4px; right: -4px; width: 11px; height: 11px; border-radius: 50%; background: var(--warn); border: 2px solid var(--surface-solid); }
 
-.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin: 10; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
+.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
 .legend li { display: flex; align-items: center; gap: 8px; }
 .sw { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--line-strong); background: var(--surface-solid); }
 .sw-current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--surface-solid), 0 0 0 3.5px var(--accent); }
@@ -515,6 +515,25 @@ span.good, span.badge, span.note { display: block; margin: 2px 0 6px; font-size:
   .scroll-float { right: 12px; bottom: 14px; }
   .scroll-float button { width: 44px; height: 44px; }
 }
+
+
+/* ---------- Theme switch (sun · switch · moon) + icon button ---------- */
+.theme-switch {
+  display: inline-flex; align-items: center; gap: 9px; height: 44px; padding: 0 14px;
+  background: var(--surface-solid); border: 1px solid var(--line-strong); border-radius: 999px;
+}
+.ts-icon { width: 20px; height: 20px; flex: 0 0 auto; color: var(--muted); transition: color .25s var(--ease), transform .4s var(--ease), filter .25s; }
+.ts-sun { color: var(--warn-text); transform: rotate(0) scale(1.1); }              /* light mode active */
+body:not(.light) .ts-sun { color: var(--muted); transform: rotate(-60deg) scale(.9); }
+body:not(.light) .ts-moon { color: var(--accent-text); transform: scale(1.1); filter: drop-shadow(0 0 6px rgb(118 185 0 / .6)); }
+.switch-btn { padding: 0; border: 0; }
+.switch-btn { position: relative; width: 48px; height: 28px; border-radius: 99px; background: var(--line-strong); transition: background-color .25s var(--ease), box-shadow .2s; }
+.switch-btn:hover { box-shadow: 0 0 0 4px rgb(118 185 0 / .18); }
+.switch-btn .knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / .35); transition: transform .25s var(--ease); }
+.switch-btn[aria-checked="true"] { background: var(--accent); }
+.switch-btn[aria-checked="true"] .knob { transform: translateX(20px); }
+.icon-btn { width: 44px; padding: 0; text-decoration: none; }
+@media (max-width: 540px) { .theme-switch { height: 40px; padding: 0 11px; gap: 7px; } .icon-btn { width: 40px; } }
 
 /* ---------- 15. Accessibility: reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {

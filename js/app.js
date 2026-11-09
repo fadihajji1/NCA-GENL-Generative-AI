@@ -158,9 +158,10 @@ $('reviewFilters').addEventListener('click',e=>{const b=e.target.closest('[data-
 $('scrollUp').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});$('scrollDown').onclick=()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'});
 function updateScrollButtons(){const top=window.scrollY<=12;const bottom=window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-12;$('scrollUp').style.display=top?'none':'block';$('scrollDown').style.display=bottom?'none':'block';}
 window.addEventListener('scroll',updateScrollButtons,{passive:true});window.addEventListener('resize',updateScrollButtons);
-function syncThemeColor(){const m=document.querySelector('meta[name=theme-color]');if(m)m.content=document.body.classList.contains('light')?'#fafafa':'#0a0a0a'}
-$('themeBtn').onclick=()=>{document.body.classList.toggle('light');syncThemeColor();const isLight=document.body.classList.contains('light');$('themeBtn').textContent=isLight?'☾ Dark':'☼ Light';try{localStorage.setItem('ncaGenlTheme',isLight?'light':'dark')}catch(e){}};
-try{const savedTheme=localStorage.getItem('ncaGenlTheme');if(savedTheme==='dark'){document.body.classList.remove('light');$('themeBtn').textContent='☼ Light'}else{document.body.classList.add('light');$('themeBtn').textContent='☾ Dark'}syncThemeColor()}catch(e){}
+function applyThemeUI(){const light=document.body.classList.contains('light');$('themeBtn').setAttribute('aria-checked',String(!light));const m=document.querySelector('meta[name=theme-color]');if(m)m.content=light?'#fafafa':'#0a0a0a'}
+$('themeBtn').onclick=()=>{document.body.classList.toggle('light');applyThemeUI();try{localStorage.setItem('ncaGenlTheme',document.body.classList.contains('light')?'light':'dark')}catch(e){}};
+try{if(localStorage.getItem('ncaGenlTheme')==='dark')document.body.classList.remove('light');else document.body.classList.add('light')}catch(e){}
+applyThemeUI();
 document.addEventListener('keydown',e=>{
  if($('pauseOverlay').classList.contains('show'))return;
  const tag=(document.activeElement&&document.activeElement.tagName||'').toLowerCase();if(['input','select','textarea'].includes(tag)||document.activeElement?.isContentEditable)return;

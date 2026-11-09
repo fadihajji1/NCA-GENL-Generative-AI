@@ -36,3 +36,4 @@ v9 UI update
   option correct/wrong states with icons, button sheen/glow/press effects, keyboard hints.
 - Fixes: misleading legend, answered dots no longer look "correct", "Study tip: undefined".
 - Fonts and the NVIDIA logo need an internet connection; the UI falls back gracefully offline.
+- Header: light/dark toggle is now a sun · switch · moon control; GitHub icon link added next to Setup.
