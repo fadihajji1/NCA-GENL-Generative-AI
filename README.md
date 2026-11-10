@@ -4,6 +4,7 @@ NCA-GENL EXAM SIMULATOR  (v9)
 A browser-based practice simulator for the NVIDIA Certified Associate -
 Generative AI LLMs (NCA-GENL) exam. 241 questions across 10 study domains,
 timed exam mode, instant-feedback practice mode, and a performance report.
+<img width="1894" height="552" alt="image" src="https://github.com/user-attachments/assets/c8d0fc25-01e4-4716-9d43-22c07b9aaf48" />
 
 
 Files
