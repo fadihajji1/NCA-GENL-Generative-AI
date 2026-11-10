@@ -41,8 +41,8 @@ body {
   --accent-soft-2: #ecfccb;        /* lime-100 */
   --accent-line: #a3e635;          /* lime-400 */
 
-  --ok: #059669;     --ok-text: #047857;     --ok-soft: #ecfdf5;     --ok-line: #6ee7b7;
-  --bad: #e11d48;    --bad-text: #be123c;    --bad-soft: #fff1f2;    --bad-line: #fda4af;
+  --ok: #059669;     --ok-text: #047857;     --ok-soft: #ecfdf5e4;     --ok-line: #6ee7b7;
+  --bad: #e11d1d;    --bad-text: #ab0202;    --bad-soft: #fff1f2dc;    --bad-line: #fda4a4;
   --warn: #f59e0b;   --warn-text: #b45309;   --warn-soft: #fffbeb;   --warn-line: #fcd34d;
 
   --green: var(--ok);              /* legacy names used by app.js */
@@ -75,8 +75,8 @@ body:not(.light) {
   --accent-soft-2: rgb(118 185 0 / .22);
   --accent-line: #76b900;
 
-  --ok: #34d399;     --ok-text: #6ee7b7;     --ok-soft: rgb(16 185 129 / .12);   --ok-line: rgb(52 211 153 / .55);
-  --bad: #fb7185;    --bad-text: #fda4af;    --bad-soft: rgb(244 63 94 / .12);   --bad-line: rgb(251 113 133 / .55);
+  --ok: #45da31;     --ok-text: #1ac803;     --ok-soft: rgb(16 185 129 / .12);   --ok-line: rgb(52 211 153 / .55);
+  --bad: #9d051c;    --bad-text: #b70202;    --bad-soft: rgba(217, 33, 33, 0.12);   --bad-line: rgba(83, 2, 2, 0.55);
   --warn: #fbbf24;   --warn-text: #fcd34d;   --warn-soft: rgb(245 158 11 / .12); --warn-line: rgb(251 191 36 / .55);
 
   --track: #2e2e2e;
@@ -312,7 +312,7 @@ input[type=checkbox]:hover { box-shadow: 0 0 0 4px rgb(118 185 0 / .18); }
 }
 
 /* question map */
-.navigator { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; max-height: 250px; overflow: auto; padding: 3px; }
+.navigator { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; max-height: 250px; overflow: auto; padding: 5px; }
 .dot {
   position: relative; min-height: 40px; padding: 0;
   background: var(--surface-solid); color: var(--text-2);
@@ -320,18 +320,21 @@ input[type=checkbox]:hover { box-shadow: 0 0 0 4px rgb(118 185 0 / .18); }
   font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums;
   transition: transform .15s var(--ease), border-color .15s, background-color .15s, box-shadow .15s;
 }
-.dot:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-2px) scale(1.05); }
-.dot.answered { background: var(--text); border-color: var(--text); color: var(--bg); }          /* answered, result hidden */
-.dot.answered:hover { background: var(--text-2); border-color: var(--text-2); }
+.dot:not(.active):hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-2px) scale(1.05); }
+
+.dot.answered { background: var(--text); border-color: var(--text); color: var(--bg); }          
+.dot.answered:not(.active):hover { background: var(--text-2); border-color: var(--text-2); }
 .dot.correct-answer { background: var(--ok-soft); border-color: var(--ok); color: var(--ok-text); }
 .dot.wrong-answer { background: var(--bad-soft); border-color: var(--bad); color: var(--bad-text); }
-.dot.active { box-shadow: 0 0 0 3px var(--surface-solid), 0 0 0 5px var(--accent); border-color: var(--accent); }
+.dot.active { box-shadow: 0 0 0 3px var(--surface-solid), 0 0 0 5px var(--accent); background-color: var(--accent); }
+.dot.active.correct-answer { background: var(--ok-soft); border-color: var(--ok); color: var(--ok-text); }
+.dot.active.wrong-answer { background: var(--bad-soft); border-color: var(--bad); color: var(--bad-text); }
 .dot.flagged::after { content: ""; position: absolute; top: -4px; right: -4px; width: 11px; height: 11px; border-radius: 50%; background: var(--warn); border: 2px solid var(--surface-solid); }
 
 .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin: 10; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
 .legend li { display: flex; align-items: center; gap: 8px; }
 .sw { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--line-strong); background: var(--surface-solid); }
-.sw-current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--surface-solid), 0 0 0 3.5px var(--accent); }
+.sw-current { background-color: var(--accent); box-shadow: 0 0 0 2px var(--surface-solid), 0 0 0 3.5px var(--accent); }
 .sw-answered { background: var(--text); border-color: var(--text); }
 .sw-correct { background: var(--ok-soft); border-color: var(--ok); }
 .sw-wrong { background: var(--bad-soft); border-color: var(--bad); }
