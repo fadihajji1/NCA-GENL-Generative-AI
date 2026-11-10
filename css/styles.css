@@ -328,7 +328,7 @@ input[type=checkbox]:hover { box-shadow: 0 0 0 4px rgb(118 185 0 / .18); }
 .dot.active { box-shadow: 0 0 0 3px var(--surface-solid), 0 0 0 5px var(--accent); border-color: var(--accent); }
 .dot.flagged::after { content: ""; position: absolute; top: -4px; right: -4px; width: 11px; height: 11px; border-radius: 50%; background: var(--warn); border: 2px solid var(--surface-solid); }
 
-.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
+.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin: 10; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
 .legend li { display: flex; align-items: center; gap: 8px; }
 .sw { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid var(--line-strong); background: var(--surface-solid); }
 .sw-current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--surface-solid), 0 0 0 3.5px var(--accent); }
